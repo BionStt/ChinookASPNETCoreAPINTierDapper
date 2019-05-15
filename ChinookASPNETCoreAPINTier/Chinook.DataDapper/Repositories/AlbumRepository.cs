@@ -29,7 +29,8 @@ namespace Chinook.DataDapper.Repositories
             
         }
 
-        private async Task<bool> AlbumExists(int id, CancellationToken ct = default) => await GetByIdAsync(id, ct) != null;
+        private async Task<bool> AlbumExists(int id, CancellationToken ct = default) =>
+            await Connection.ExecuteScalarAsync<bool>("select count(1) from Album where AlbumId = @id", new {id});
 
         public async Task<List<Album>> GetAllAsync(CancellationToken ct = default)
         { 

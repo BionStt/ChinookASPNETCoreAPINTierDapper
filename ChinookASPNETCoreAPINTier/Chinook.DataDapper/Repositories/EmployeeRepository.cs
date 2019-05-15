@@ -29,7 +29,8 @@ namespace Chinook.DataDapper.Repositories
             
         }
 
-        private async Task<bool> EmployeeExists(int id, CancellationToken ct = default) => await GetByIdAsync(id, ct) != null;
+        private async Task<bool> EmployeeExists(int id, CancellationToken ct = default) =>
+            await Connection.ExecuteScalarAsync<bool>("select count(1) from Employee where EmployeeId = @id", new {id});
 
         public async Task<List<Employee>> GetAllAsync(CancellationToken ct = default)
         {

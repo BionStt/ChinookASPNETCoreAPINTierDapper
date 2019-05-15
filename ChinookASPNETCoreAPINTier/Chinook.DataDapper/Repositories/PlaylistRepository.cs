@@ -29,7 +29,8 @@ namespace Chinook.DataDapper.Repositories
             
         }
 
-        private async Task<bool> PlaylistExists(int id, CancellationToken ct = default) => await GetByIdAsync(id, ct) != null;
+        private async Task<bool> PlaylistExists(int id, CancellationToken ct = default) =>
+            await Connection.ExecuteScalarAsync<bool>("select count(1) from Playlist where PlaylistId = @id", new {id});
 
         public async Task<List<Playlist>> GetAllAsync(CancellationToken ct = default)
         {
