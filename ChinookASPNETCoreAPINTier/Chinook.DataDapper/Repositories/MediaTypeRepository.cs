@@ -29,7 +29,8 @@ namespace Chinook.DataDapper.Repositories
             
         }
 
-        private async Task<bool> MediaTypeExists(int id, CancellationToken ct = default) => await GetByIdAsync(id, ct) != null;
+        private async Task<bool> MediaTypeExists(int id, CancellationToken ct = default) =>
+            await Connection.ExecuteScalarAsync<bool>("select count(1) from MediaType where MediaTypeId = @id", new {id});
 
         public async Task<List<MediaType>> GetAllAsync(CancellationToken ct = default)
         {

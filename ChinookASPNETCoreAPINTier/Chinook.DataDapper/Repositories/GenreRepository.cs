@@ -29,7 +29,8 @@ namespace Chinook.DataDapper.Repositories
             
         }
 
-        private async Task<bool> GenreExists(int id, CancellationToken ct = default) => await GetByIdAsync(id, ct) != null;
+        private async Task<bool> GenreExists(int id, CancellationToken ct = default) =>
+            await Connection.ExecuteScalarAsync<bool>("select count(1) from Genre where GenreId = @id", new {id});
 
         public async Task<List<Genre>> GetAllAsync(CancellationToken ct = default)
         {
